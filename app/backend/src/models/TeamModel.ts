@@ -3,7 +3,7 @@ import { ITeamsModel } from '../Interfaces/teams/ITeamsModel';
 import SequelizeTeam from '../database/models/SequelizeTeams';
 import { ITeams } from '../Interfaces/teams/ITeams';
 
-export default class BookModel implements ITeamsModel {
+export default class TeamModel implements ITeamsModel {
   private model = SequelizeTeam;
 
   async findById(id: ITeams['id']): Promise<ITeams | null> {
