@@ -15,10 +15,6 @@ class App {
     this.app.get('/', (req, res) => res.json({ ok: true }));
   }
 
-  private routes(): void {
-    this.app.use(router);
-  }
-
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
@@ -29,6 +25,10 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+  }
+
+  private routes(): void {
+    this.app.use(router);
   }
 
   public start(PORT: string | number): void {
