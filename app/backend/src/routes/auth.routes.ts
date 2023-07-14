@@ -13,7 +13,7 @@ authRouter.post(
 );
 
 authRouter.get(
-  '/',
+  '/role',
   Validations.validateToken,
   (req, res) => authController.login(req, res),
 );

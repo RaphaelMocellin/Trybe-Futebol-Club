@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import JwtUtils from '../utils/JwtUtils';
-import { ILogin } from '../Interfaces/users/IUser';
+import { ILogin, IUser } from '../Interfaces/users/IUser';
 import UserModel from '../models/UserModel';
 
 export default class AuthController {
@@ -29,6 +29,15 @@ export default class AuthController {
 
     return res.status(200).json({
       token,
+    });
+  }
+
+  async getRole(req: Request, res: Response) {
+    const { id } = res.locals;
+    const user = await this.model.findById(id) as IUser;
+
+    return res.status(200).json({
+      role: user.role,
     });
   }
 }
