@@ -12,4 +12,10 @@ authRouter.post(
   (req, res) => authController.login(req, res),
 );
 
+authRouter.get(
+  '/',
+  Validations.validateToken,
+  (req, res) => authController.login(req, res),
+);
+
 export default authRouter;
