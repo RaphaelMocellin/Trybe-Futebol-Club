@@ -17,6 +17,10 @@ export interface ICRUDModelDeleter {
   delete(id: ID): Promise<number>,
 }
 
+export interface ICRUDModelQuerer<T> {
+  findByQuery(key: string, query: string | boolean):Promise<T[]>
+}
+
 export interface ICRUDModel<T>
   extends ICRUDModelCreator<T>, ICRUDModelReader<T>, ICRUDModelUpdater<T>,
   ICRUDModelDeleter { }

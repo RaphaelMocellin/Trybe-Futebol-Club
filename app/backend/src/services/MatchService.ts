@@ -1,17 +1,25 @@
 import MatchModel from '../models/MatchModel';
-import { IMatchModel } from '../Interfaces/matches/IMatchModel';
+// import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { NewEntity } from '../Interfaces';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 
 export default class MatchService {
   constructor(
-    private matchModel: IMatchModel = new MatchModel(),
+    private matchModel: MatchModel = new MatchModel(),
   ) { }
 
   public async getAllMatches(): Promise<ServiceResponse<IMatch[]>> {
     const allMatches = await this.matchModel.findAll();
     return { status: 'SUCCESSFUL', data: allMatches };
+  }
+
+  public async getMatchesByQuery(
+    key: string,
+    query: string | boolean,
+  ): Promise<ServiceResponse<IMatch[]>> {
+    const matches = await this.matchModel.findByQuery(key, query);
+    return { status: 'SUCCESSFUL', data: matches as IMatch[] };
   }
 
   public async getMatchById(id: number): Promise<ServiceResponse<IMatch>> {

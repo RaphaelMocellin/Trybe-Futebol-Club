@@ -1,10 +1,11 @@
+import { ICRUDModelQuerer } from '../Interfaces/ICRUDModel';
 import SequelizeMatches from '../database/models/SequelizeMatches';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { NewEntity } from '../Interfaces';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import SequelizeTeam from '../database/models/SequelizeTeams';
 
-export default class MatchModel implements IMatchModel {
+export default class MatchModel implements IMatchModel, ICRUDModelQuerer<IMatch> {
   private model = SequelizeMatches;
 
   async findById(id: IMatch['id']): Promise<IMatch | null> {
@@ -17,6 +18,22 @@ export default class MatchModel implements IMatchModel {
 
   async findAll(): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
+    return dbData
+      .map(({ id,
+        homeTeamId,
+        homeTeamGoals, awayTeamId, awayTeamGoals, inProgress, homeTeam, awayTeam }: IMatch) => (
+        { id, homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress, homeTeam, awayTeam }
+      ));
+  }
+
+  async findByQuery(key: string, query: string | boolean) {
+    const dbData = await this.model.findAll({
+      where: { [key]: query },
       include: [
         { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
         { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
