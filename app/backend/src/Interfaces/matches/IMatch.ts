@@ -1,8 +1,8 @@
 import { Identifiable } from '..';
 
 export interface IMatch extends Identifiable {
-  homeTeam: number,
-  awayTeam: number,
+  homeTeamId: number,
+  awayTeamId: number,
   homeTeamGoals: number,
   awayTeamGoals: number,
   inProgress: boolean,
