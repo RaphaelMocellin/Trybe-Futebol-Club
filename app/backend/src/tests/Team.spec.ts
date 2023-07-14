@@ -55,13 +55,13 @@ describe('Teams Test', function() {
       expect(body).to.deep.equal(team);
     });
   
-    it.skip('shouldn\'t create a team with invalid body data', async function() {
-      const { status, body } = await chai.request(app).post('/teams')
-        .send({});
+    // it.skip('shouldn\'t create a team with invalid body data', async function() {
+    //   const { status, body } = await chai.request(app).post('/teams')
+    //     .send({});
   
-      expect(status).to.equal(400);
-      expect(body.message).to.equal('teamName is required');
-    });
+    //   expect(status).to.equal(400);
+    //   expect(body.message).to.equal('teamName is required');
+    // });
   
     it('should update a team', async function () {
       sinon.stub(SequelizeTeam, 'update').resolves([1] as any);
