@@ -41,9 +41,9 @@ export default class MatchController {
     return res.status(200).json(serviceResponse.data);
   }
 
-  public async deleteTeam(req: Request, res: Response): Promise<Response> {
+  public async deleteMatch(req: Request, res: Response): Promise<Response> {
     const id = Number(req.params.id);
-    const serviceResponse = await this.matchService.deleteTeam(id);
+    const serviceResponse = await this.matchService.deleteMatch(id);
 
     if (serviceResponse.status !== 'SUCCESSFUL') {
       return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
