@@ -31,28 +31,29 @@ class Validations {
       });
     }
 
-    next();
+    return next();
   }
 
   static validateToken(req: Request, res: Response, next: NextFunction) {
-    const { authorization } = req.headers;
+    try {
+      const { authorization } = req.headers;
 
-    if (!authorization) {
-      return res.status(401).json({
-        message: 'Token not found',
-      });
-    }
+      if (!authorization) {
+        return res.status(401).json({
+          message: 'Token not found',
+        });
+      }
 
-    const jwtUtils = new JwtUtils();
-    const decodedToken = jwtUtils.verify(authorization);
+      const jwtUtils = new JwtUtils();
+      const decodedToken = jwtUtils.verify(authorization);
+      res.locals.decodedToken = decodedToken;
 
-    if (!decodedToken) {
+      return next();
+    } catch {
       return res.status(401).json({
         message: 'Token must be a valid token',
       });
     }
-
-    next();
   }
 }
 
