@@ -14,8 +14,8 @@ export default class AuthController {
     const user = await this.model.findByEmail(email);
 
     if (!user) {
-      return res.status(404).json({
-        message: 'user not found',
+      return res.status(401).json({
+        message: 'Invalid email or password',
       });
     }
 

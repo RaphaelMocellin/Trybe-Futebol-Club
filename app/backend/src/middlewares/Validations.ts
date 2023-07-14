@@ -17,9 +17,16 @@ class Validations {
 
   static validateLogin(req: Request, res: Response, next: NextFunction): Response | void {
     const { email, password } = req.body as ILogin;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: 'All fields must be filled',
+      });
+    }
+
     if (!Email.isValidEmail(email) || password.length < Validations.passwordMinLength) {
       return res.status(401).json({
-        message: 'All fields must be filled',
+        message: 'Invalid email or password',
       });
     }
 
