@@ -39,9 +39,6 @@ export default class AuthController {
 
   async getRole(req: Request, res: Response): Promise<Response> {
     const { id } = res.locals.decodedToken;
-
-    console.log(res.locals.decodedToken);
-
     const serviceResponse = await this.userService.findById(Number(id));
 
     if (serviceResponse.status !== 'SUCCESSFUL') {

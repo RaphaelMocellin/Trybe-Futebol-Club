@@ -10,6 +10,7 @@ matchRouter.get('/', (req, res) => matchController.getAllMatches(req, res));
 matchRouter.post(
   '/',
   Validations.validateToken,
+  Validations.validateTeams,
   (req, res) => matchController.createMatch(req, res),
 );
 matchRouter.patch(
