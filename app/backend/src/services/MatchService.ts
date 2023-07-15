@@ -29,7 +29,7 @@ export default class MatchService {
   }
 
   public async createMatch(match: NewEntity<IMatch>): Promise<ServiceResponse<IMatch>> {
-    const newMatch = await this.matchModel.create(match);
+    const newMatch = await this.matchModel.create({ ...match, inProgress: true });
     return { status: 'SUCCESSFUL', data: newMatch };
   }
 
