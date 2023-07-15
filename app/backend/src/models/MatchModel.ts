@@ -54,7 +54,7 @@ export default class MatchModel implements IMatchModel, ICRUDModelQuerer<IMatch>
     return { id, homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress };
   }
 
-  async update(id: IMatch['id'], data: Partial<NewEntity<IMatch>>): Promise<IMatch | null> {
+  async update(id: number, data: Partial<NewEntity<IMatch>>): Promise<IMatch | null> {
     const [affectedRows] = await this.model.update(data, { where: { id } });
     if (affectedRows === 0) return null;
 
