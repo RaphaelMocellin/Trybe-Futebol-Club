@@ -16,8 +16,8 @@ const { app } = new App();
 
 const { expect } = chai;
 
-describe('Login Test', function() {
-    it('should login with valid credentials', async function() {
+describe('Login Tests', function() {
+    it('should get token with valid credentials', async function() {
       sinon.stub(bcrypt, 'compareSync').returns(true);
       sinon.stub(SequelizeUser, 'findOne').resolves(user as any);
   
@@ -73,6 +73,33 @@ describe('Login Test', function() {
       expect(body).to.deep.equal({
         message: 'Invalid email or password'
       })
+    });
+
+    afterEach(sinon.restore);
+  });
+
+  describe('Login/role Tests', function() {
+    it('should get role with valid token', async function() {
+      sinon.stub(SequelizeUser, 'findOne').resolves(user as any);
+      sinon.stub(JwtUtils.prototype, 'verify').returns(user);
+  
+      const { status, body } = await chai.request(app).get('/login/role').set('Authorization', 'token');
+  
+      expect(status).to.equal(200);
+      expect(body).to.haveOwnProperty('role', 'admin');
+    });
+  
+    it('should not get role without a token', async () => {
+      const { status, body } = await chai.request(app).get('/login/role');
+      expect(status).to.equal(401);
+      expect(body).to.haveOwnProperty('message', 'Token not found');
+    });
+  
+    it('should not get a role with invalid token', async () => {
+      sinon.stub(JwtUtils.prototype, 'verify').throws();
+      const { status, body } = await chai.request(app).get('/login/role').set('Authorization', 'invalid-token');
+      expect(status).to.equal(401);
+      expect(body).to.haveOwnProperty('message', 'Token must be a valid token');
     });
 
     afterEach(sinon.restore);
