@@ -21,8 +21,17 @@ const sameteams = {
 
 const matches = [match]
 
+const user = { 
+  id: 1,
+  username: 'Rapha Mocellin',
+  email: 'rapha@rapha.com',
+  password: '123456',
+  role: 'admin'
+};
+
 export {
     match,
     matches,
-    sameteams
+    sameteams,
+    user
 }
