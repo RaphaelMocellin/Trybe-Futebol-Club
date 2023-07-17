@@ -39,4 +39,18 @@ export default class LeaderboardService {
 
     return sortedLeaderboard;
   }
+
+  public async getHomeLeaderboard() {
+    const allTeams = await this.teamModel.findAll();
+    const allMatches = await this.matchModel.findByQuery('inProgress', false);
+
+    const homeLeaderboard = allTeams.map((team) => {
+      const onlyHomeMatches = allMatches.filter((match) => match.homeTeamId === team.id);
+      return new TeamInfo(team.teamName, team.id, onlyHomeMatches);
+    });
+
+    const sortedHomeLeaderboard = LeaderboardService.sortLeaderboard(homeLeaderboard);
+
+    return sortedHomeLeaderboard;
+  }
 }
