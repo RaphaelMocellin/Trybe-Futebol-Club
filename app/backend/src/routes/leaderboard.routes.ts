@@ -5,6 +5,6 @@ const leaderboardRouter = Router();
 
 const leaderboardController = new LeaderboardController();
 
-leaderboardRouter.get('/', leaderboardController.getGeneralLeaderboard);
+leaderboardRouter.get('/', (req, res) => leaderboardController.getGeneralLeaderboard(req, res));
 
 export default leaderboardRouter;
